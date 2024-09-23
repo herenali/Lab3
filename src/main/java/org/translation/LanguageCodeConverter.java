@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,9 @@ import java.util.Map;
 public class LanguageCodeConverter {
 
     // TODO Task: pick appropriate instance variables to store the data necessary for this class
+    private int numLanguages;
+    private Map<String, String> nameToCodeMap = new HashMap<>();
+    private Map<String, String> codeToNameMap = new HashMap<>();
 
     /**
      * Default constructor which will load the language codes from "language-codes.txt"
@@ -36,6 +40,16 @@ public class LanguageCodeConverter {
 
             // TODO Task: use lines to populate the instance variable
             //           tip: you might find it convenient to create an iterator using lines.iterator()
+            Iterator<String> iterator = lines.iterator();
+            String line = iterator.next();
+
+            while (iterator.hasNext()) {
+                line = iterator.next();
+                String[] lineArray = line.split("\t");
+                nameToCodeMap.put(lineArray[0], lineArray[1]);
+                codeToNameMap.put(lineArray[1], lineArray[0]);
+                this.numLanguages++;
+            }
 
             // TODO Checkstyle: '}' on next line should be alone on a line.
         }
@@ -52,7 +66,7 @@ public class LanguageCodeConverter {
      */
     public String fromLanguageCode(String code) {
         // TODO Task: update this code to use your instance variable to return the correct value
-        return code;
+        return codeToNameMap.get(code);
     }
 
     /**
@@ -62,7 +76,7 @@ public class LanguageCodeConverter {
      */
     public String fromLanguage(String language) {
         // TODO Task: update this code to use your instance variable to return the correct value
-        return language;
+        return nameToCodeMap.get(language);
     }
 
     /**
@@ -71,6 +85,6 @@ public class LanguageCodeConverter {
      */
     public int getNumLanguages() {
         // TODO Task: update this code to use your instance variable to return the correct value
-        return 0;
+        return this.numLanguages;
     }
 }
